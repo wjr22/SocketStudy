@@ -1,3 +1,16 @@
+/**
+ *	this file is made by wjr in 3/27/2018
+ *	description:
+ *		HOW TO USE: GetAddressIInfo $(hostname)
+ *			{
+ *				.hostname{
+ *					description:"主机名，可以为节点名或点分格式主机地址"
+ *					eg.:www.baidu.com(OR baidu.com)
+ *				}
+ *			}
+ *		WHAT IT IS: it can print $(hostname)'s protocol family、address
+ */
+
 #include <cstdio>
 #include<stdlib.h>
 #include<string.h>
@@ -52,22 +65,7 @@
  *	****:可选:hints:过滤地址的模板，（用于getaddrinfo传递参数）
  */
 
- /**
- * 函数定义
- * @param	int domain: 通讯的特性，包括地址格式一般有四个域
- *					AF_INET			:IPv4域
- *					AF_INET6		:IPv6域
- *					AF_UNIX			:UNIX域
- *					AF_UPSPEC		:未定
- *			int type  : 套接字类型，进一步确定通信特征
- *					SOCK_DGRAM		固定长度、无连接、不可靠的报文传递
- *					SOCK_RAW		IP协议的数据报接口
- *					SOCK_SEQPACKET	固定长度、有序、可靠、面向连接的报文传递
- *					SOCK_STREAM		有序、可靠、双向、面向连接的报文传递
- *			int protocol：默认为0，选择默认协议（例如：AF_INET，SOCK_STREAM下协议为TCP）
- * @return int（-1 OR 文件描述符）
- * int socket(int domain,int type,int protocol);
- */
+ 
 /**
  * @param	const char *restrict host:主机名，可以为节点名或点分格式主机地址
  *			const char *restrict service:服务名，一个服务名或者10进制端口号数串。服务名可以是十进制的端口号，也可以是已定义的服务名称，如ftp、http等
@@ -181,13 +179,13 @@ main(int argc,char *argv[]) {
 		print_protocol(aip);
 		switch (aip->ai_family) {
 		case AF_INET:
-			ptr = &((struct sockaddr_in *)aip->ai_addr)->sin_addr;
+			ptr = &((struct sockaddr_in *)aip->ai_addr)->sin_addr;	//获取地址指针（v4）
 			break;
 		case AF_INET6:
-			ptr = &((struct sockaddr_in6 *)aip->ai_addr)->sin6_addr;
+			ptr = &((struct sockaddr_in6 *)aip->ai_addr)->sin6_addr;//（v6）
 			break;
 		}
-		addr = inet_ntop(aip->ai_family, ptr, buff, sizeof(buff));
+		addr = inet_ntop(aip->ai_family, ptr, buff, sizeof(buff));	//转换地址格式
 		printf("address:\t%s\n", buff);
 	}
 	return 0;
