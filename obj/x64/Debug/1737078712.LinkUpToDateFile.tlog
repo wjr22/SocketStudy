@@ -1,0 +1,1 @@
+g++ -o "/home/wjr/projects/ConsoleApplication3/bin/x64/Debug/ConsoleApplication3.out" -Wl,--no-undefined -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack /home/wjr/projects/ConsoleApplication3/obj/x64/Debug/main.o

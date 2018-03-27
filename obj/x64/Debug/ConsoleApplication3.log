@@ -1,0 +1,9 @@
+﻿  Validating architecture
+  Validating sources
+  Copying sources remotely to '192.168.163.129'
+  Starting remote build
+  Compiling sources:
+  main.cpp
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\main.cpp(104,14): warning : variable ‘addr’ set but not used [-Wunused-but-set-variable]
+  Linking objects
+  ConsoleApplication3.vcxproj -> C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\bin\x64\Debug\ConsoleApplication3.out
