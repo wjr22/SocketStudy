@@ -61,7 +61,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="GetAddressInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>

@@ -95,6 +95,69 @@
  *       返回值：若成功则为指向结构的指针，若出错则为NULL
  */
 
+
+void
+print_family(struct addrinfo *aip) {
+	printf(" Family:\t\t");
+	switch (aip->ai_family) {
+	case AF_INET:
+		printf("ipv4\n");
+		break;
+	case AF_INET6:
+		printf("ipv6\n");
+		break;
+	case AF_UNSPEC:
+		printf("unspecified\n");
+		break;
+	case AF_UNIX:
+		printf("unix\n");
+		break;
+	default:
+		printf("Unknown\n");
+		break;
+	}
+}
+void
+print_type(struct addrinfo *aip) {
+	printf(" type:\t\t");
+	switch (aip->ai_socktype) {
+	case SOCK_STREAM:
+		printf("stream\n");
+		break;
+	case SOCK_DGRAM:
+		printf("datagram\n");
+		break;
+	case SOCK_RAW:
+		printf("raw\n");
+		break;
+	case SOCK_SEQPACKET:
+		printf("seqpacket\n");
+		break;
+	default:
+		printf("Unknown (%d)\n", aip->ai_socktype);
+		break;
+	}
+}
+void
+print_protocol(struct addrinfo *aip) {
+	printf(" protocol:\t");
+	switch (aip->ai_protocol) {
+	case IPPROTO_TCP:
+		printf("TCP\n");
+		break;
+	case IPPROTO_UDP:
+		printf("UDP\n");
+		break;
+	case IPPROTO_RAW:
+		printf("RAW\n");
+		break;
+	default:
+		printf("Unknow\n");
+		break;
+	}
+}
+
+
 int
 main(int argc,char *argv[]) {
 	struct addrinfo *aip,*ailist;
@@ -104,20 +167,28 @@ main(int argc,char *argv[]) {
 	const char *addr;
 	void *ptr;
 
-	memset(&hints, 0, sizeof(hints));	//清0
-	
-	err = getaddrinfo(argv[1], NULL, &hints, &ailist);
+	memset(&hints, 0, sizeof(hints));					//清0
+		
+	err = getaddrinfo(argv[1], NULL, &hints, &ailist);	//根据hostname获取ip地址族
 	if (err != 0) {
 		perror("getaddrinfo failed");
 		exit(-1);
 	}
 	printf("Host:\t%s\n", argv[1]);
 	for (aip = ailist; aip != NULL; aip = aip->ai_next) {
-		if (aip->ai_family == AF_INET) {
+		print_family(aip);
+		print_type(aip);
+		print_protocol(aip);
+		switch (aip->ai_family) {
+		case AF_INET:
 			ptr = &((struct sockaddr_in *)aip->ai_addr)->sin_addr;
-			addr = inet_ntop(aip->ai_family, ptr, buff, sizeof(buff));
-			printf("address:\t%s\n", buff);
+			break;
+		case AF_INET6:
+			ptr = &((struct sockaddr_in6 *)aip->ai_addr)->sin6_addr;
+			break;
 		}
+		addr = inet_ntop(aip->ai_family, ptr, buff, sizeof(buff));
+		printf("address:\t%s\n", buff);
 	}
 	return 0;
 }
