@@ -1,14 +1,30 @@
 ﻿  Validating architecture
   Validating sources
-  Copying sources remotely to '192.168.163.129'
+  Copying sources remotely to '192.168.163.130'
   Starting remote build
   Compiling sources:
-  GetAddressInfo.cpp
-  Server.cpp
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.cpp(80,16): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.cpp(87,19): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.cpp(46,13): warning : unused variable ‘err’ [-Wunused-variable]
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.cpp(46,37): warning : unused variable ‘i’ [-Wunused-variable]
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.cpp(49,14): warning : unused variable ‘addr’ [-Wunused-variable]
+  Server.c
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-fthreadsafe-statics’ is valid for C++/ObjC++ but not for C [enabled by default]
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-frtti’ is valid for C++/ObjC++ but not for C [enabled by default]
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(66,13): warning : conversion to ‘int’ from ‘ssize_t’ may alter its value [-Wconversion]
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(117,2): warning : suggest parentheses around assignment used as truth value [-Wparentheses]
   Linking objects
-  ConsoleApplication3.vcxproj -> C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\bin\x64\Debug\ConsoleApplication3.out
+  /home/tenacity/projects/ConsoleApplication3/obj/x64/Debug/Server.o: In function `recv_thread':
+  /home/tenacity/projects/ConsoleApplication3/Server.c:54: multiple definition of `recv_thread'
+  /home/tenacity/projects/ConsoleApplication3/obj/x64/Debug/Clent.o:/home/tenacity/projects/ConsoleApplication3/Clent.c:50: first defined here
+  /home/tenacity/projects/ConsoleApplication3/obj/x64/Debug/Clent.o: In function `main':
+  /home/tenacity/projects/ConsoleApplication3/Clent.c:109: undefined reference to `pthread_create'
+  /home/tenacity/projects/ConsoleApplication3/Clent.c:114: undefined reference to `pthread_create'
+  /home/tenacity/projects/ConsoleApplication3/Clent.c:119: undefined reference to `pthread_join'
+  /home/tenacity/projects/ConsoleApplication3/Clent.c:120: undefined reference to `pthread_join'
+  collect2: error: ld returned 1 exit status
+  
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\obj\x64\Debug\Server.o : error : 
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(54): error : multiple definition of `recv_thread'
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\obj\x64\Debug\Clent.o:\home\tenacity\projects\ConsoleApplication3\Clent.c(50): error : first defined here
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\obj\x64\Debug\Clent.o : error : 
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Clent.c(109): error : undefined reference to `pthread_create'
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Clent.c(114): error : undefined reference to `pthread_create'
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Clent.c(119): error : undefined reference to `pthread_join'
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Clent.c(120): error : undefined reference to `pthread_join'
+collect2 : error : ld returned 1 exit status

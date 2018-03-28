@@ -3,5 +3,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <RemoteDebuggerCommandArguments>tenacity</RemoteDebuggerCommandArguments>
     <DebuggerFlavor>LinuxDebugger</DebuggerFlavor>
+    <RemoteTarget>-1938788318;192.168.163.130 (username=, port=22, authentication=Password)</RemoteTarget>
   </PropertyGroup>
 </Project>
