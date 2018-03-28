@@ -1,3 +1,4 @@
+
 /**
  *	this file is made by wjr in 3/27/2018
  *	description:
@@ -155,7 +156,7 @@ print_protocol(struct addrinfo *aip) {
 	}
 }
 
-
+/*
 int
 main(int argc,char *argv[]) {
 	struct addrinfo *aip,*ailist;
@@ -190,3 +191,4 @@ main(int argc,char *argv[]) {
 	}
 	return 0;
 }
+*/
