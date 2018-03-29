@@ -17,35 +17,35 @@
 #include<netdb.h>
 #include<pthread.h>
 /**
- *	½«ÎÄ±¾×Ö·û´®¸ñÊ½×ª»»³ÉÍøÂç×Ö½ÚµÄ¶ş½øÖÆµØÖ·
+ *	å°†æ–‡æœ¬å­—ç¬¦ä¸²æ ¼å¼è½¬æ¢æˆç½‘ç»œå­—èŠ‚çš„äºŒè¿›åˆ¶åœ°å€
  *	int inet_pton(int domain, const char * restrict str,void *restrict addr);
  *	
- *	½«ÍøÂç×Ö½ÚµÄ¶ş½øÖÆµØÖ·×ª»»³ÉÎÄ±¾×Ö·û´®¸ñÊ½
+ *	å°†ç½‘ç»œå­—èŠ‚çš„äºŒè¿›åˆ¶åœ°å€è½¬æ¢æˆæ–‡æœ¬å­—ç¬¦ä¸²æ ¼å¼
  *	const char *inet_ntop(int domain, const char *restrict addr,char *restrict str,socklen_t size);
  *
- *	¹ØÁªµØÖ·ºÍÌ×½Ó×Ö,×¢ÒâµÚ¶ş¸ö²ÎÊıÀàĞÍ×ª»»
+ *	å…³è”åœ°å€å’Œå¥—æ¥å­—,æ³¨æ„ç¬¬äºŒä¸ªå‚æ•°ç±»å‹è½¬æ¢
  *	int bind(int sockfd,const struct sockaddr *addr,socklen_t len);
  *
- *	·¢ÏÖ°ó¶¨µ½Ì×½Ó×ÖÉÏµÄµØÖ·
+ *	å‘ç°ç»‘å®šåˆ°å¥—æ¥å­—ä¸Šçš„åœ°å€
  *	int getsockname(int sockfd,struct sockaddr *restrict addr, socklen_t *restrict alenp);
  *
- *	·¢ÏÖ¶ÔµÈ·½µØÖ·£¨ÒÑÁ¬½Ó£©
+ *	å‘ç°å¯¹ç­‰æ–¹åœ°å€ï¼ˆå·²è¿æ¥ï¼‰
  *	int getpeername(int sockfd,struct sockaddr *restrict addr, socklen_t *restrict alenp);
  *
- *  ÉèÖÃÌ×½Ó×ÖÑ¡Ïî
+ *  è®¾ç½®å¥—æ¥å­—é€‰é¡¹
  *	int setsockopt(int sockfd,int level,int option, const void *val, socklen_t len);
  *	
- *	½¨Á¢Á¬½Ó£º
+ *	å»ºç«‹è¿æ¥ï¼š
  *	SOCK_STREAM OR SOCK_SEQPACKET:
- *	¿Í»§¶ËÁ¬½Ó·şÎñÆ÷£º²ÎÊı£ºsockfd: int socket(int domain,int type,int protocol)·µ»ØÖµ(ÎÄ¼şÃèÊö·û)
+ *	å®¢æˆ·ç«¯è¿æ¥æœåŠ¡å™¨ï¼šå‚æ•°ï¼šsockfd: int socket(int domain,int type,int protocol)è¿”å›å€¼(æ–‡ä»¶æè¿°ç¬¦)
  *  int connect(int sockfd, const sockaddr *addr,socklen_t len);
  *	
- *	·şÎñÆ÷ÕìÌı¿Í»§¶ËÇëÇó
+ *	æœåŠ¡å™¨ä¾¦å¬å®¢æˆ·ç«¯è¯·æ±‚
  *	int listen(int sockdf,int backlog);
  */
 struct Socket {
 	int					sockfd;
-	struct sockaddr		*Server;
+	struct sockaddr		*Clent;
 	socklen_t			socklen;
 };
 
@@ -56,13 +56,9 @@ recv_thread(void *arg) {
 	int sockfd_clent;
 	int flag = 0;
 	char buf[1024] = { 0 };
-	struct Socket *server=(struct Socket *)arg;
+	struct Socket *Clent=(struct Socket *)arg;
+	sockfd_clent=Clent->sockfd;
 	
-	if ((sockfd_clent = accept(server->sockfd, (struct sockaddr *)&clent,&(server->socklen)))==-1) {
-		perror("accept error");
-		exit(-1);
-	}
-	printf("Get Connect!\n");
 	flag = recv(sockfd_clent, buf, sizeof(buf), 0);
 	if (flag == 0) {
 		printf("Close!\n");
@@ -75,9 +71,9 @@ recv_thread(void *arg) {
 
 int main() {
 	struct sockaddr_in sock;
-	struct Socket server;
-
-	int sockfd,err;
+	struct Socket Clent_socket;
+	struct sockaddr_in clent;
+	int sockfd,err,sockfd_clent;
 	
 	char addr[20];	//Server IP
 	socklen_t structlen = sizeof(struct sockaddr);
@@ -89,28 +85,32 @@ int main() {
 	sock.sin_addr.s_addr = INADDR_ANY;
 
 	sockfd = initserver(SOCK_STREAM, (struct sockaddr*)&sock, structlen, 10);
-	server.sockfd = sockfd;
-	server.Server = (struct sockaddr *)&sock;
-	server.socklen = structlen;
+	Clent_socket.sockfd = sockfd;
+	Clent_socket.socklen = structlen;
 	printf("Ready for Accept,Waitting...\n");
 	
 	while (1) {
 		static int i = 0;
 		i++;
+		if ((sockfd_clent = accept(sockfd, (struct sockaddr *)&clent,structlen))==-1) {
+			perror("accept error");
+			exit(-1);
+		}
+		Clent_socket.Clent=(struct sockaddr*)clent;
+		printf("Get Connect!\n");
 		pthread_t pthread_recv;
-		if (pthread_create(&pthread_recv, NULL, recv_thread,&server) != 0) {
+		if (pthread_create(&pthread_recv, NULL, recv_thread,&CLent_socket) != 0) {
 			perror("Can't Create New pthread");
 		}
 		printf("this is %d pthread\n", i);
-		pthread_join(pthread_recv, NULL);
 	}
 	close(sockfd);
 	return 0;
 }
 
 /*
- *	ÔÊĞíµØÖ·¸´ÓÃµÄ·şÎñ¶Ë³õÊ¼»¯Ì×½Ó×Öº¯Êı
- *  hints : include address¡¢family and so on
+ *	å…è®¸åœ°å€å¤ç”¨çš„æœåŠ¡ç«¯åˆå§‹åŒ–å¥—æ¥å­—å‡½æ•°
+ *  hints : include addressã€family and so on
  *  len   : sizeof hints
  *	qlen  :	backlog
  *	return : socket file description(sockfd)
@@ -125,7 +125,7 @@ initserver(int type, struct sockaddr *hints,socklen_t len,int qlen) {
 	else {
 		printf("Create TCP socket Success!\n");
 	}
-	/* ÖØÓÃbindÖĞµÄµØÖ· */
+	/* é‡ç”¨bindä¸­çš„åœ°å€ */
 	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(int)) < 0) {
 		goto errout;
 	}
