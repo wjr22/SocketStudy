@@ -96,10 +96,10 @@ int main() {
 			perror("accept error");
 			exit(-1);
 		}
-		Clent_socket.Clent=(struct sockaddr*)clent;
+		Clent_socket.Clent=(struct sockaddr*)&clent;
 		printf("Get Connect!\n");
 		pthread_t pthread_recv;
-		if (pthread_create(&pthread_recv, NULL, recv_thread,&CLent_socket) != 0) {
+		if (pthread_create(&pthread_recv, NULL, recv_thread,&Clent_socket) != 0) {
 			perror("Can't Create New pthread");
 		}
 		printf("this is %d pthread\n", i);
