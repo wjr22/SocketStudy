@@ -58,7 +58,7 @@ recv_thread(void *arg) {
 	char buf[1024] = { 0 };
 	struct Socket *Clent=(struct Socket *)arg;
 	sockfd_clent=Clent->sockfd;
-	
+        printf("this is in pthread\n");	
 	flag = recv(sockfd_clent, buf, sizeof(buf), 0);
 	if (flag == 0) {
 		printf("Close!\n");
@@ -85,21 +85,24 @@ int main() {
 	sock.sin_addr.s_addr = INADDR_ANY;
 
 	sockfd = initserver(SOCK_STREAM, (struct sockaddr*)&sock, structlen, 10);
+
 	Clent_socket.sockfd = sockfd;
 	Clent_socket.socklen = structlen;
+
+        printf("Server sockfd is %d\n",sockfd);
 	printf("Ready for Accept,Waitting...\n");
 	
 	while (1) {
 		static int i = 0;
 		i++;
-		if ((sockfd_clent = accept(sockfd, (struct sockaddr *)&clent,structlen))==-1) {
-			perror("accept error");
+		if ((sockfd_clent = accept(sockfd, (struct sockaddr *)&clent,&structlen))<0) {
+                        printf("Accept Failed!\n");
 			exit(-1);
 		}
-		Clent_socket.Clent=(struct sockaddr*)clent;
+		Clent_socket.Clent=(struct sockaddr*)&clent;
 		printf("Get Connect!\n");
 		pthread_t pthread_recv;
-		if (pthread_create(&pthread_recv, NULL, recv_thread,&CLent_socket) != 0) {
+		if (pthread_create(&pthread_recv, NULL, recv_thread,&Clent_socket) != 0) {
 			perror("Can't Create New pthread");
 		}
 		printf("this is %d pthread\n", i);
@@ -118,28 +121,33 @@ int main() {
 int
 initserver(int type, struct sockaddr *hints,socklen_t len,int qlen) {
 	int sockfd, err, reuse = 1;
-	if (sockfd = socket(AF_INET, SOCK_STREAM, 0)< 0) {
-		perror("Create TCP socket failed\n");
+        socklen_t sizeofint=sizeof(int);
+	if ((sockfd = socket(AF_INET, SOCK_STREAM, 0))< 0) {
+		printf("Create TCP socket failed\n");
 		return -1;
 	}
 	else {
 		printf("Create TCP socket Success!\n");
 	}
 	/* 重用bind中的地址 */
-	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(int)) < 0) {
+	if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeofint) < 0) {
+                printf("setsockopt failed\n");
 		goto errout;
 	}
 
 	if (bind(sockfd, hints, len) != 0) {
+                printf("bind failed\n");
 		goto errout;
 	}
 	if (listen(sockfd, qlen) != 0) {
+                printf("listen failed\n");
 		goto errout;
 	}
 	return sockfd;
 errout:
 	err = errno;
 	close(sockfd);
+        printf("errno :%d\n",errno);
 	errno = err;
 	return -1;
 }
