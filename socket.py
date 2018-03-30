@@ -1,10 +1,7 @@
 #! /bin/local/bin/python2.7
 # -*- coding:utf-8 -*-
 import socket
-import sys
-import commands
 import threading
-import time
 	
 host = '192.168.163.130'
 port = 8000
@@ -22,6 +19,7 @@ def Recv(sockfd, addr):
 		print data
 	thread.exit()
 
+
 # -*- main function -*-
 def main():
 	sockfd = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -35,7 +33,9 @@ def main():
 		try:
 			# -*- New Thread, param: target function, and this funtion's args(tuple) -*-
 			threading.Thread(target = Recv,args = (sock, addr))
-	
+		except:
+			print "Error:unable to create new thread"
 
+			
 if __name__ == "___main__":
 	main()
