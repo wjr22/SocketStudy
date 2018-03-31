@@ -1,27 +1,32 @@
 ﻿  Validating architecture
   Validating sources
-  Copying sources remotely to '192.168.163.130'
+  Copying sources remotely to '192.168.163.129'
   Starting remote build
   Compiling sources:
+  Clent.c
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-fthreadsafe-statics’ is valid for C++/ObjC++ but not for C
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-frtti’ is valid for C++/ObjC++ but not for C
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Clent.c(61,10): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
+  GetAddressInfo.cpp
   Server.c
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-fthreadsafe-statics’ is valid for C++/ObjC++ but not for C [enabled by default]
-C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-frtti’ is valid for C++/ObjC++ but not for C [enabled by default]
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(66,13): warning : conversion to ‘int’ from ‘ssize_t’ may alter its value [-Wconversion]
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(117,2): warning : suggest parentheses around assignment used as truth value [-Wparentheses]
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-fthreadsafe-statics’ is valid for C++/ObjC++ but not for C
+C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Application Type\Linux\1.0\Linux.targets(269,5): warning : command line option ‘-frtti’ is valid for C++/ObjC++ but not for C
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(66,9): warning : conversion to ‘int’ from ‘ssize_t {aka long int}’ may alter its value [-Wconversion]
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(121,2): warning : suggest parentheses around assignment used as truth value [-Wparentheses]
   Linking objects
-  /home/tenacity/projects/ConsoleApplication3/obj/x64/Debug/Server.o: In function `recv_thread':
-  /home/tenacity/projects/ConsoleApplication3/Server.c:54: multiple definition of `recv_thread'
-  /home/tenacity/projects/ConsoleApplication3/obj/x64/Debug/Clent.o:/home/tenacity/projects/ConsoleApplication3/Clent.c:50: first defined here
-  /home/tenacity/projects/ConsoleApplication3/obj/x64/Debug/Clent.o: In function `main':
-  /home/tenacity/projects/ConsoleApplication3/Clent.c:109: undefined reference to `pthread_create'
-  /home/tenacity/projects/ConsoleApplication3/Clent.c:114: undefined reference to `pthread_create'
-  /home/tenacity/projects/ConsoleApplication3/Clent.c:119: undefined reference to `pthread_join'
-  /home/tenacity/projects/ConsoleApplication3/Clent.c:120: undefined reference to `pthread_join'
+  /home/wjr/projects/ConsoleApplication3/obj/x64/Debug/Server.o: In function `recv_thread':
+  /home/wjr/projects/ConsoleApplication3/Server.c:54: multiple definition of `recv_thread'
+  /home/wjr/projects/ConsoleApplication3/obj/x64/Debug/Clent.o:/home/wjr/projects/ConsoleApplication3/Clent.c:50: first defined here
+  /home/wjr/projects/ConsoleApplication3/obj/x64/Debug/Clent.o: In function `main':
+  /home/wjr/projects/ConsoleApplication3/Clent.c:109: undefined reference to `pthread_create'
+  /home/wjr/projects/ConsoleApplication3/Clent.c:114: undefined reference to `pthread_create'
+  /home/wjr/projects/ConsoleApplication3/Clent.c:119: undefined reference to `pthread_join'
+  /home/wjr/projects/ConsoleApplication3/Clent.c:120: undefined reference to `pthread_join'
   collect2: error: ld returned 1 exit status
   
 C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\obj\x64\Debug\Server.o : error : 
 C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Server.c(54): error : multiple definition of `recv_thread'
-C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\obj\x64\Debug\Clent.o:\home\tenacity\projects\ConsoleApplication3\Clent.c(50): error : first defined here
+C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\obj\x64\Debug\Clent.o:\home\wjr\projects\ConsoleApplication3\Clent.c(50): error : first defined here
 C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\obj\x64\Debug\Clent.o : error : 
 C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Clent.c(109): error : undefined reference to `pthread_create'
 C:\Users\wangj\source\repos\ConsoleApplication3\ConsoleApplication3\Clent.c(114): error : undefined reference to `pthread_create'
